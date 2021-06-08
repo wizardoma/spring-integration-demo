@@ -4,8 +4,10 @@ import com.wizardom.springintegrationdemo.domain.User;
 import com.wizardom.springintegrationdemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,8 +20,9 @@ public class UserService {
     }
 
     @ServiceActivator(inputChannel = "registrationRequest")
-    public void save(User user) {
-        userRepository.save(user);
+    public void save(Message<User> message) {
+        LocalDateTime dateTime = (LocalDateTime) message.getHeaders().get("date");
+        userRepository.save(message.getPayload().setRegistrationDate(dateTime));
     }
 
     public User edit(long id, User user) {

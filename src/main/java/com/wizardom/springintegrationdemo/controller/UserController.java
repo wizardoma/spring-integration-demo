@@ -9,6 +9,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class UserController {
 
     @PostMapping("")
     public User save(@ModelAttribute User user){
-        Message<User> message = MessageBuilder.withPayload(user).build();
+        Message<User> message = MessageBuilder.withPayload(user).setHeader("date", LocalDateTime.now()).build();
         boolean sent = registrationRequestChannel.send(message);
         return sent? user : new User();
     }
