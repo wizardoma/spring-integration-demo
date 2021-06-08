@@ -3,10 +3,9 @@ package com.wizardom.springintegrationdemo.controller;
 import com.wizardom.springintegrationdemo.domain.User;
 import com.wizardom.springintegrationdemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -25,5 +24,10 @@ public class UserController {
         return  user1;
     }
 
-    
+    @GetMapping("")
+    public List<User> getAll(){
+        return userService.getUsers();
+    }
+
+
 }
