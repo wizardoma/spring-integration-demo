@@ -3,6 +3,7 @@ package com.wizardom.springintegrationdemo.service;
 import com.wizardom.springintegrationdemo.domain.User;
 import com.wizardom.springintegrationdemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +17,9 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User save(User user) {
-        return userRepository.save(user);
+    @ServiceActivator(inputChannel = "registrationRequest")
+    public void save(User user) {
+        userRepository.save(user);
     }
 
     public User edit(long id, User user) {
